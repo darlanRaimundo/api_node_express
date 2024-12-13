@@ -2,9 +2,9 @@
     "name": "api_node_express",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "server.ts",
     "scripts": {
-        "start": "nodemon server",
+        "start": "nodemon server.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -15,9 +15,16 @@
         "config": "^3.2.3",
         "consign": "^0.1.6",
         "express": "^4.17.1",
-        "uuid": "^3.3.3"
+        "nodemon": "^3.1.7",
+        "typescript": "^5.7.2",
+        "uuid": "^3.3.3",
+        "uuidv4": "^6.2.13"
     },
     "devDependencies": {
-        "@types/uuid": "^8.3.0"
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.10.1",
+        "@types/uuid": "^8.3.4",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.19.2"
     }
 }
