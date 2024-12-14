@@ -18,8 +18,10 @@ export interface ICustomResponse {
 }
 
 export interface ISaveCustomerWalletInput {
+  id: string
+  parentId: string
   name: string
-  birthDate: string,
+  birthDate: Date,
   cellphone: string,
   phone: string,
   email: string,

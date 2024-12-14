@@ -1,38 +1,50 @@
-import { uuid }  from 'uuidv4'
 import { ICustomerWallet, ISaveCustomerWalletInput, IUpdateCustomerWalletsInput } from '../types/global'
 import { Request, Response } from 'express'
 import data from '../data/customerWallets.json'
+import mongoose, { Schema } from 'mongoose'
 
 const customerWalletsMock = data
 
+const customerSchema = new Schema<ICustomerWallet>({
+    name: { type: String, required: true },
+    parentId: { type: String, required: true },
+    birthDate: { type: Date, required: true },
+    cellphone: { type: String, required: true },
+    phone: { type: String, required: false },
+    email: { type: String, required: true },
+    occupation: { type: String, required: true },
+    state: { type: String, required: true },
+    createdAt: { type: Date, required: true },
+})
+
+const Customer = mongoose.model<ICustomerWallet>('Customer', customerSchema)
+
 export const listCustomerWalletsController = async (req: Request, res: Response) => {
-    // getCustomerWalletsUseCase
-    const _customerWalletsMock = customerWalletsMock.customerWallets.data 
+    // TODO -> getCustomerWalletsUseCase
+    const customers = await Customer.find()
 
     res.json({
         message: 'Carteira de cliente resgatas com sucesso!',
-        data: _customerWalletsMock
+        data: customers
     })
 }
 
-export const saveCustomerWalletsController = (req: Request, res: Response) => {
-    const body = req.body as ISaveCustomerWalletInput | null
+export const saveCustomerWalletsController = async (req: Request, res: Response) => {
+    const body = req.body as ISaveCustomerWalletInput | undefined
 
     if (!body){
-        return {
+        res.json({
             message: 'Corpo da requisição não informado!'
-        }
+        })
+        return
     }
 
     try {
-        // getCustomerWalletsUseCase
-        const _customerWalletsMock: ICustomerWallet[] = customerWalletsMock.customerWallets.data as unknown as ICustomerWallet[] 
-        const _birthDate = new Date(body.birthDate)
-        _customerWalletsMock.push({
-            id: uuid(),
-            parentId: uuid(),
+        // TODO -> saveCustomerWalletsUseCase
+        const customer = new Customer({
+            parentId: body.parentId,
             name: body.name,
-            birthDate: _birthDate,
+            birthDate: body.birthDate,
             cellphone: body.cellphone,
             phone: body.phone,
             email: body.email,
@@ -40,6 +52,8 @@ export const saveCustomerWalletsController = (req: Request, res: Response) => {
             state: body.state,
             createdAt: new Date()
         } as ICustomerWallet)
+
+        await customer.save()
 
         res.json({
             message: 'Cliente salvo com sucesso!.'
