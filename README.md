@@ -26,12 +26,14 @@ Este é um projeto de uma API simples construída com **Node.js** e **Express**.
    ```bash
    cd api_node_express
 
-3. **Instale as dependências**:
+3. **Abra o arquivo '.env' e altere a porta se necessário (padrão=8080)**
+
+4. **Instale as dependências**:
 
    ```bash
    yarn
 
-4. **Execute a aplicação**:
+5. **Execute a aplicação**:
    
    ```bash
    yarn start

@@ -1,8 +1,9 @@
 import express, { json } from 'express'
+import 'dotenv/config'
 import { MainRouter } from './api/routes/index.routes'
 
 const app = express()
-const port = 8080
+const port = process.env.PORT
 
 app.use(json())
 app.use('/', MainRouter)
