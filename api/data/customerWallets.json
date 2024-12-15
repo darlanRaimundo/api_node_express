@@ -1,6 +1,7 @@
 {
     "customerWallets": {
-        "data": [{
+        "data": [
+            {
                 "id": "5da9ea674234635bdff45c02",
                 "name": "Cliente 149501",
                 "parentId": "5da9ea6732123433432",
