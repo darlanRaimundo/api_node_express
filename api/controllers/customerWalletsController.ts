@@ -58,9 +58,15 @@ export const saveCustomerWalletsController = async (req: Request, res: Response)
         res.json({
             message: 'Cliente salvo com sucesso!.'
         })
-    } catch (error: any) {
+    } catch (error) {
+        let errorMessage = ''
+        if (typeof error === "string") {
+            errorMessage = error.toUpperCase()
+        } else if (error instanceof Error) {
+           errorMessage = error.message
+        }
         res.json({
-            message: error.message
+            message: errorMessage
         })
     }
 }
@@ -93,9 +99,15 @@ export const removeCustomerWallets = (req: Request, res: Response) => {
                 customerWallets: _customerWalletsMock
             })
         }
-    } catch (error: any) {
+    } catch (error) {
+        let errorMessage = ''
+        if (typeof error === "string") {
+            errorMessage = error.toUpperCase()
+        } else if (error instanceof Error) {
+           errorMessage = error.message
+        }
         res.json({
-            message: error.message,
+            message: errorMessage
         })
     }
 }
@@ -142,9 +154,15 @@ export const updateCustomerWallets = (req: Request, res: Response) => {
                 data: _customerWalletsMock,
             })
         }
-    } catch (error: any) {
+    } catch (error) {
+        let errorMessage = ''
+        if (typeof error === "string") {
+            errorMessage = error.toUpperCase()
+        } else if (error instanceof Error) {
+           errorMessage = error.message
+        }
         res.json({
-            message: error.message
-        }) 
+            message: errorMessage
+        })
     }
 }

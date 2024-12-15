@@ -11,12 +11,6 @@ export interface ICustomerWallet {
   createdAt: Date
 }
 
-export interface ICustomResponse {
-  message: string
-  success: boolean  
-  data?: any
-}
-
 export interface ISaveCustomerWalletInput {
   id: string
   parentId: string
