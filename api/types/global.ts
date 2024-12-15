@@ -24,6 +24,7 @@ export interface ISaveCustomerWalletInput {
 }
 
 export interface IUpdateCustomerWalletsInput {
+  id: string;
   customerId: string;
   parentId: string;
   name: string;
