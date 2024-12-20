@@ -2,18 +2,21 @@ import express, { json } from "express";
 import "dotenv/config";
 import { MainRouter } from "./api/routes/index.routes";
 import mongoose from "mongoose";
+import { asyncTimeout } from "./api/services";
 
 const app = express();
 const port = process.env.PORT;
 
 app.use(json());
-
-mongoose.connect(
-  "mongodb+srv://darlanRaimundo:nagini100@customerswallet.toiuo.mongodb.net/customerWallets?retryWrites=true&w=majority&appName=CustomersWallet"
-);
-
 app.use("/", MainRouter);
-// RODANDO APLICAÇÃO NA PORTA SETADA
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+
+asyncTimeout(0, async () => {
+  await mongoose.connect(
+    "mongodb+srv://darlanRaimundo:nagini100@customerswallet.toiuo.mongodb.net/customerWallets?retryWrites=true&w=majority&appName=CustomersWallet"
+  );
+
+  // RODANDO APLICAÇÃO NA PORTA SETADA
+  app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
 });
