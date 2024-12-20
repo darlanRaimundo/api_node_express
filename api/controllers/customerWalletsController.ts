@@ -128,7 +128,7 @@ export const removeCustomerWalletsController = async (
   req: Request,
   res: Response
 ) => {
-  const body = req.body as { customerId: string } | null;
+  const body = req.body as { id: string } | null;
   if (!body) {
     res.json({
       message: "Corpo da requisição não informado!",
@@ -137,11 +137,11 @@ export const removeCustomerWalletsController = async (
   }
 
   // TODO -> removeCustomerUseCase
-  const customerId = body.customerId;
+  const customerId = body.id;
 
   try {
     const foundCustomer = await Customer.findByIdAndDelete({
-      id: customerId,
+      _id: customerId,
     }).exec();
 
     if (!foundCustomer) {
