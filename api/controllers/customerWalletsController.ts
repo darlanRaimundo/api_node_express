@@ -81,42 +81,12 @@ export const saveCustomerWalletsController = async (
   }
 };
 
-export const removeCustomerWallets = async (req: Request, res: Response) => {
-  const body = req.body as { customerId: string } | null;
-  if (!body) {
-    return {
-      message: "Corpo da requisição não informado!",
-    };
-  }
-
-  // TODO -> removeCustomerUseCase
-  const customerId = body.customerId;
-
-  try {
-    const foundCustomer = await Customer.findByIdAndDelete({
-      id: customerId,
-    }).exec();
-
-    if (!foundCustomer) {
-      res.json({
-        message: "Cliente não encontrado na base.",
-      });
-    } else {
-      res.json({
-        message: "Cliente encontrado e deletado com sucesso!.",
-        customer: foundCustomer,
-      });
-    }
-  } catch (error) {
-    const errorMessage = returnErrorMessage(error);
-    res.json({
-      message: errorMessage,
-    });
-  }
-};
-
-export const updateCustomerWallets = async (req: Request, res: Response) => {
+export const updateCustomerWalletsController = async (
+  req: Request,
+  res: Response
+) => {
   const body = req.body as IUpdateCustomerWalletsInput | undefined;
+
   if (!body) {
     res.json({
       message: "Corpo da requisição não informado!",
@@ -138,12 +108,50 @@ export const updateCustomerWallets = async (req: Request, res: Response) => {
     ).exec();
 
     if (!updatedCustomer) {
-      return {
+      res.json({
         message: "Cliente não encontrado na base.",
-      };
+      });
     } else {
       res.json({
         message: "Cliente encontrado e atualizado com sucesso.",
+      });
+    }
+  } catch (error) {
+    const errorMessage = returnErrorMessage(error);
+    res.json({
+      message: errorMessage,
+    });
+  }
+};
+
+export const removeCustomerWalletsController = async (
+  req: Request,
+  res: Response
+) => {
+  const body = req.body as { customerId: string } | null;
+  if (!body) {
+    res.json({
+      message: "Corpo da requisição não informado!",
+    });
+    return;
+  }
+
+  // TODO -> removeCustomerUseCase
+  const customerId = body.customerId;
+
+  try {
+    const foundCustomer = await Customer.findByIdAndDelete({
+      id: customerId,
+    }).exec();
+
+    if (!foundCustomer) {
+      res.json({
+        message: "Cliente não encontrado na base.",
+      });
+    } else {
+      res.json({
+        message: "Cliente encontrado e deletado com sucesso!.",
+        customer: foundCustomer,
       });
     }
   } catch (error) {

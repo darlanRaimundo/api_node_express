@@ -25,13 +25,12 @@ export interface ISaveCustomerWalletInput {
 
 export interface IUpdateCustomerWalletsInput {
   id: string;
-  customerId: string;
-  parentId: string;
-  name: string;
-  birthDate: Date;
-  cellphone: string;
-  phone: string;
-  email: string;
-  occupation: string;
-  state: string;
+  parentId?: string;
+  name?: string;
+  birthDate?: Date;
+  cellphone?: string;
+  phone?: string;
+  email?: string;
+  occupation?: string;
+  state?: string;
 }
