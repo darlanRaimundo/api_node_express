@@ -1,6 +1,6 @@
 /**
  * SetTimeout assíncrono
- * @param timeout Temo em milisegundos
+ * @param timeout Tempo em milisegundos
  * @param handler Função a executar (optional)
  */
 export const asyncTimeout = (timeout: number, handler?: () => void) => {
@@ -12,6 +12,13 @@ export const asyncTimeout = (timeout: number, handler?: () => void) => {
   });
 };
 
+/**
+ * Resgatar mensagem de erro já tratada
+ * @param error 
+
+ * @returns 
+ * message: string
+ */
 export const returnErrorMessage = (error: unknown): string => {
   let errorMessage = "";
   if (typeof error === "string") {
