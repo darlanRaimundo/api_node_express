@@ -1,25 +1,12 @@
 import {
   ICustomerWallet,
+  IRemoveCustomerWalletsInput,
   ISaveCustomerWalletInput,
   IUpdateCustomerWalletsInput,
 } from "../types/global";
 import { Request, Response } from "express";
-import mongoose, { Schema } from "mongoose";
 import { returnErrorMessage } from "../services";
-
-const customerSchema = new Schema<ICustomerWallet>({
-  name: { type: String, required: true },
-  parentId: { type: String, required: true },
-  birthDate: { type: Date, required: true },
-  cellphone: { type: String, required: true },
-  phone: { type: String, required: false },
-  email: { type: String, required: true },
-  occupation: { type: String, required: true },
-  state: { type: String, required: true },
-  createdAt: { type: Date, required: true },
-});
-
-const Customer = mongoose.model<ICustomerWallet>("Customer", customerSchema);
+import { Customer } from "../Models/CustomerModel";
 
 export const listCustomerWalletsController = async (
   req: Request,
@@ -128,7 +115,7 @@ export const removeCustomerWalletsController = async (
   req: Request,
   res: Response
 ) => {
-  const body = req.body as { id: string } | null;
+  const body = req.body as IRemoveCustomerWalletsInput | null;
   if (!body) {
     res.json({
       message: "Corpo da requisição não informado!",

@@ -34,3 +34,7 @@ export interface IUpdateCustomerWalletsInput {
   occupation?: string;
   state?: string;
 }
+
+export interface IRemoveCustomerWalletsInput {
+  id: string;
+}
