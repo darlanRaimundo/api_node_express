@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import { asyncTimeout } from "./api/services";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.use(json());
 app.use("/", MainRouter);
