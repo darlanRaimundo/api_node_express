@@ -1,16 +1,30 @@
 import { ICustomerRepository } from "../repositories/CustomerRepository";
-import { ICustomerWallet } from "../types/global";
+import { ICustomerWallet, UseCase } from "../types/global";
 
-export default class GetAllCustomerWalletsUseCase {
-  constructor(private customerRepository: ICustomerRepository) {}
+export interface IGetAllCustomerWalletsDTO {
+  customerRepository: ICustomerRepository;
+}
+export interface IGetAllCustomerWalletsUseCaseOutput {
+  customers: ICustomerWallet[];
+}
 
-  async execute(): Promise<ICustomerWallet[]> {
+export default class GetAllCustomerWalletsUseCase
+  implements
+    UseCase<IGetAllCustomerWalletsDTO, IGetAllCustomerWalletsUseCaseOutput>
+{
+  private customerRepository: ICustomerRepository;
+
+  constructor(customerRepository: ICustomerRepository) {
+    this.customerRepository = customerRepository;
+  }
+
+  async execute(): Promise<IGetAllCustomerWalletsUseCaseOutput> {
     const customers = await this.customerRepository.getAllCustomers();
 
     if (!customers) {
       throw new Error("Cliente não encontrado na base.");
     }
 
-    return customers;
+    return { customers };
   }
 }

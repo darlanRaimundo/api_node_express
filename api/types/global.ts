@@ -38,3 +38,7 @@ export interface IUpdateCustomerWalletsInput {
 export interface IRemoveCustomerWalletsInput {
   id: string;
 }
+
+export interface UseCase<IRequest, IResponse> {
+  execute(request?: IRequest): Promise<IResponse> | IResponse;
+}
