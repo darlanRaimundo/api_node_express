@@ -6,15 +6,20 @@ import {
 } from "../types/global";
 import { Request, Response } from "express";
 import { returnErrorMessage } from "../services";
-import { Customer } from "../Models/CustomerModel";
+import { Customer } from "../models/CustomerModel";
+import { CustomerRepository } from "../repositories/CustomerRepository";
+import GetAllCustomerWalletsUseCase from "../useCases/GetAllCustomerWalletsUseCase";
 
 export const listCustomerWalletsController = async (
   req: Request,
   res: Response
 ) => {
   try {
-    // TODO -> getCustomerWalletsUseCase
-    const customers = await Customer.find();
+    const customerRepository = new CustomerRepository();
+    const getAllCustomerWalletsUseCase = new GetAllCustomerWalletsUseCase(
+      customerRepository
+    );
+    const customers = getAllCustomerWalletsUseCase.execute();
 
     res.json({
       message: "Carteira de cliente resgatas com sucesso!",
