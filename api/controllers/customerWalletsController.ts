@@ -19,11 +19,11 @@ export const listCustomerWalletsController = async (
     const getAllCustomerWalletsUseCase = new GetAllCustomerWalletsUseCase(
       customerRepository
     );
-    const customers = getAllCustomerWalletsUseCase.execute();
+    const output = await getAllCustomerWalletsUseCase.execute();
 
     res.json({
       message: "Carteira de cliente resgatas com sucesso!",
-      data: customers,
+      data: output.customers,
     });
   } catch (error) {
     const errorMessage = returnErrorMessage(error);
