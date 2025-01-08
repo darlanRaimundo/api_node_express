@@ -1,5 +1,9 @@
 import { ICustomerRepository } from "../repositories/CustomerRepository";
-import { ICustomerWallet, IUpdateCustomerWalletsInput } from "../types/global";
+import {
+  ICustomerWallet,
+  IUpdateCustomerWalletsInput,
+  UseCase,
+} from "../types/global";
 
 export interface IUpdateCustomerWalletsDTO {
   customerRepository: ICustomerRepository;
@@ -10,7 +14,10 @@ export interface IUpdateCustomerWalletsUseCaseOutput {
   updatedCustomer?: ICustomerWallet;
 }
 
-export default class UpdateCustomerWalletsUseCase {
+export default class UpdateCustomerWalletsUseCase
+  implements
+    UseCase<IUpdateCustomerWalletsInput, IUpdateCustomerWalletsUseCaseOutput>
+{
   private customerRepository: ICustomerRepository;
 
   constructor(customerRepository: ICustomerRepository) {
