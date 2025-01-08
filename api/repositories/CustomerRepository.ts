@@ -5,7 +5,7 @@ export interface ICustomerRepository {
   getCustomer(id: string): Promise<ICustomerWallet>;
   getAllCustomers(): Promise<ICustomerWallet[]>;
   createCustomer(data: ICustomerWallet): Promise<ICustomerWallet>;
-  updateCustomer(data: ICustomerWallet): Promise<ICustomerWallet>;
+  updateCustomer(data: Partial<ICustomerWallet>): Promise<ICustomerWallet>;
   removeCustomer(id: string): Promise<boolean>;
 }
 
@@ -35,6 +35,7 @@ export class CustomerRepository implements ICustomerRepository {
 
     return await customer.save();
   }
+
   async updateCustomer(data: ICustomerWallet): Promise<ICustomerWallet> {
     const updatedCustomer = await Customer.findByIdAndUpdate(
       {
@@ -45,6 +46,7 @@ export class CustomerRepository implements ICustomerRepository {
 
     return updatedCustomer as ICustomerWallet;
   }
+
   async removeCustomer(id: string): Promise<boolean> {
     const foundCustomer = await Customer.findByIdAndDelete({
       _id: id,
