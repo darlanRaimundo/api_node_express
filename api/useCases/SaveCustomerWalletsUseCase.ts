@@ -1,5 +1,5 @@
 import { ICustomerRepository } from "../repositories/CustomerRepository";
-import { ICustomerWallet } from "../types/global";
+import { ICustomerWallet, ISaveCustomerWalletInput } from "../types/global";
 
 export interface ISaveCustomerWalletsDTO {
   customerRepository: ICustomerRepository;
@@ -17,9 +17,11 @@ export default class SaveCustomerWalletsUseCase {
   }
 
   async execute(
-    input: ICustomerWallet
+    input: ISaveCustomerWalletInput
   ): Promise<ISaveCustomerWalletsUseCaseOutput> {
-    const customers = await this.customerRepository.createCustomer(input);
+    const customers = await this.customerRepository.createCustomer(
+      input as ICustomerWallet
+    );
 
     if (!customers) {
       throw new Error("Erro ao salvar clientes na base.");

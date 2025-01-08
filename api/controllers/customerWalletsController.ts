@@ -1,5 +1,4 @@
 import {
-  ICustomerWallet,
   IRemoveCustomerWalletsInput,
   ISaveCustomerWalletInput,
   IUpdateCustomerWalletsInput,
@@ -10,6 +9,7 @@ import { Customer } from "../models/CustomerModel";
 import { CustomerRepository } from "../repositories/CustomerRepository";
 import GetAllCustomerWalletsUseCase from "../useCases/GetAllCustomerWalletsUseCase";
 import SaveCustomerWalletsUseCase from "../useCases/SaveCustomerWalletsUseCase";
+import UpdateCustomerWalletsUseCase from "../useCases/UpdateCustomerWalletsUseCase";
 
 export const listCustomerWalletsController = async (
   req: Request,
@@ -53,23 +53,10 @@ export const saveCustomerWalletsController = async (
       customerRepository
     );
 
-    const customer = new Customer({
-      parentId: body.parentId,
-      name: body.name,
-      birthDate: body.birthDate,
-      cellphone: body.cellphone,
-      phone: body.phone,
-      email: body.email,
-      occupation: body.occupation,
-      state: body.state,
-      createdAt: new Date(),
-    } as ICustomerWallet);
-
-    const message = (await saveCustomerWalletsUseCase.execute(customer))
-      .message;
+    const output = await saveCustomerWalletsUseCase.execute(body);
 
     res.json({
-      message,
+      message: output.message,
     });
   } catch (error) {
     const errorMessage = returnErrorMessage(error);
@@ -92,28 +79,15 @@ export const updateCustomerWalletsController = async (
     return;
   }
 
-  // TODO -> updateCustomerWalletsUseCase
-
   try {
-    const customerToUpdateId = body.id;
-    const updateData = { ...body };
+    const customerRepository = new CustomerRepository();
+    const updateCustomerWalletsUseCase = new UpdateCustomerWalletsUseCase(
+      customerRepository
+    );
 
-    const updatedCustomer = await Customer.findByIdAndUpdate(
-      {
-        _id: customerToUpdateId,
-      },
-      updateData
-    ).exec();
+    const output = await updateCustomerWalletsUseCase.execute(body);
 
-    if (!updatedCustomer) {
-      res.json({
-        message: "Cliente não encontrado na base.",
-      });
-    } else {
-      res.json({
-        message: "Cliente encontrado e atualizado com sucesso.",
-      });
-    }
+    res.json(output);
   } catch (error) {
     const errorMessage = returnErrorMessage(error);
     res.json({
