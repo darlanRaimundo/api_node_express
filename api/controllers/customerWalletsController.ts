@@ -5,11 +5,11 @@ import {
 } from "../types/global";
 import { Request, Response } from "express";
 import { returnErrorMessage } from "../services";
-import { Customer } from "../models/CustomerModel";
 import { CustomerRepository } from "../repositories/CustomerRepository";
 import GetAllCustomerWalletsUseCase from "../useCases/GetAllCustomerWalletsUseCase";
 import SaveCustomerWalletsUseCase from "../useCases/SaveCustomerWalletsUseCase";
 import UpdateCustomerWalletsUseCase from "../useCases/UpdateCustomerWalletsUseCase";
+import RemoveCustomerWalletsUseCase from "../useCases/RemoveCustomerWalletsUseCase";
 
 export const listCustomerWalletsController = async (
   req: Request,
@@ -108,24 +108,20 @@ export const removeCustomerWalletsController = async (
     return;
   }
 
-  // TODO -> removeCustomerUseCase
   const customerId = body.id;
 
   try {
-    const foundCustomer = await Customer.findByIdAndDelete({
-      _id: customerId,
-    }).exec();
+    const customerRepository = new CustomerRepository();
+    const removeCustomerWalletsUseCase = new RemoveCustomerWalletsUseCase(
+      customerRepository
+    );
+    const output = await removeCustomerWalletsUseCase.execute({
+      id: customerId,
+    });
 
-    if (!foundCustomer) {
-      res.json({
-        message: "Cliente não encontrado na base.",
-      });
-    } else {
-      res.json({
-        message: "Cliente encontrado e deletado com sucesso!.",
-        customer: foundCustomer,
-      });
-    }
+    res.json({
+      message: output.message,
+    });
   } catch (error) {
     const errorMessage = returnErrorMessage(error);
     res.json({
