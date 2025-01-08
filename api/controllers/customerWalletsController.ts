@@ -9,6 +9,7 @@ import { returnErrorMessage } from "../services";
 import { Customer } from "../models/CustomerModel";
 import { CustomerRepository } from "../repositories/CustomerRepository";
 import GetAllCustomerWalletsUseCase from "../useCases/GetAllCustomerWalletsUseCase";
+import SaveCustomerWalletsUseCase from "../useCases/SaveCustomerWalletsUseCase";
 
 export const listCustomerWalletsController = async (
   req: Request,
@@ -47,7 +48,11 @@ export const saveCustomerWalletsController = async (
   }
 
   try {
-    // TODO -> saveCustomerWalletsUseCase
+    const customerRepository = new CustomerRepository();
+    const saveCustomerWalletsUseCase = new SaveCustomerWalletsUseCase(
+      customerRepository
+    );
+
     const customer = new Customer({
       parentId: body.parentId,
       name: body.name,
@@ -60,10 +65,11 @@ export const saveCustomerWalletsController = async (
       createdAt: new Date(),
     } as ICustomerWallet);
 
-    await customer.save();
+    const message = (await saveCustomerWalletsUseCase.execute(customer))
+      .message;
 
     res.json({
-      message: "Cliente salvo com sucesso!.",
+      message,
     });
   } catch (error) {
     const errorMessage = returnErrorMessage(error);
