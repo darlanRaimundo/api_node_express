@@ -1,14 +1,18 @@
-import { ICustomerRepository } from "../repositories/CustomerRepository";
-import { IRemoveCustomerWalletsInput, UseCase } from "../types/global";
+import { ICustomerRepository } from "../repositories/CustomerRepository"; // Importa a interface `ICustomerRepository`, que define os métodos para interagir com os dados de clientes.
+import { IRemoveCustomerWalletsInput, UseCase } from "../types/global"; // Importa os tipos `IRemoveCustomerWalletsInput` e `UseCase` para tipagem.
 
 export interface IRemoveCustomerWalletsDTO {
-  customerRepository: ICustomerRepository;
+  customerRepository: ICustomerRepository; // Define a estrutura do DTO (Data Transfer Object) que contém a dependência de `ICustomerRepository`.
 }
 
 export interface IRemoveCustomerWalletsUseCaseOutput {
-  message: string;
+  message: string; // Define a estrutura da saída do caso de uso, que é uma mensagem de sucesso.
 }
 
+/*
+ * Caso de uso RemoveCustomerWalletsUseCase: Classe responsável por remover um cliente da base de dados.
+ * Ela implementa a interface UseCase e define o método execute, que executa a lógica de remoção de um cliente.
+ */
 export default class RemoveCustomerWalletsUseCase
   implements
     UseCase<IRemoveCustomerWalletsInput, IRemoveCustomerWalletsUseCaseOutput>
