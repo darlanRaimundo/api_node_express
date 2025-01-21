@@ -1,8 +1,8 @@
 import express, { json } from "express";
 import "dotenv/config";
-import { MainRouter } from "./api/routes/index.routes";
 import mongoose from "mongoose";
-import { asyncTimeout } from "./api/services";
+import { MainRouter } from "./routes/index.routes";
+import { asyncTimeout } from "./services";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -20,3 +20,5 @@ asyncTimeout(0, async () => {
     console.log(`Servidor rodando na porta ${port}`);
   });
 });
+
+export default app;
