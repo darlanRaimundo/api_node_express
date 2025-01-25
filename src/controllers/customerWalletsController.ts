@@ -10,6 +10,7 @@ import GetAllCustomerWalletsUseCase from "../useCases/GetAllCustomerWalletsUseCa
 import SaveCustomerWalletsUseCase from "../useCases/SaveCustomerWalletsUseCase"; // Caso de uso para salvar uma carteira de cliente.
 import UpdateCustomerWalletsUseCase from "../useCases/UpdateCustomerWalletsUseCase"; // Caso de uso para atualizar uma carteira de cliente.
 import RemoveCustomerWalletsUseCase from "../useCases/RemoveCustomerWalletsUseCase"; // Caso de uso para remover uma carteira de cliente.
+import GetCustomerByIdUseCase from "../useCases/GetCustomerByIdUseCase"; // Caso de uso para resgatar uma carteira de cliente por id.
 
 // Listar todas as carteiras dos clientes, capturando qualquer erro que possa ocorrer durante o processo e retornando uma mensagem apropriada.
 export const listCustomerWalletsController = async (
@@ -137,6 +138,42 @@ export const removeCustomerWalletsController = async (
     const errorMessage = returnErrorMessage(error);
     res.json({
       message: errorMessage,
+    });
+  }
+};
+
+export const getCustomerByIdController = async (
+  req: Request, // A requisição recebida
+  res: Response // A resposta a ser enviada
+) => {
+  const params = req.params as { id: string } | null; // Extraímos os parâmetros da requisição (neste caso, o "id" do cliente).
+
+  if (!params) {
+    // Se não houver parâmetros na requisição...
+    res.json({
+      message: "Parametro da requisição não informado!", // Retorna uma mensagem de erro se o parâmetro não for encontrado.
+    });
+    return;
+  }
+
+  const customerId = params.id; // Obtém o ID do cliente, que foi passado como parâmetro da requisição.
+
+  try {
+    const customerRepository = new CustomerRepository(); // Cria uma instância do repositório de clientes, que provavelmente é responsável por acessar os dados de clientes no banco de dados.
+    const getCustomerByIdUseCase = new GetCustomerByIdUseCase(
+      customerRepository // Cria uma instância do caso de uso que lida com a lógica de buscar o cliente pelo ID.
+    );
+    const output = await getCustomerByIdUseCase.execute({ id: customerId }); // Chama o método de execução do caso de uso, passando o ID do cliente e aguardando a resposta.
+
+    res.json({
+      message: "Carteira de cliente resgatada com sucesso!", // Se a busca for bem-sucedida, envia uma resposta com a mensagem de sucesso.
+      data: output.customer, // Inclui os dados do cliente resgatados no corpo da resposta.
+    });
+  } catch (error) {
+    // Se ocorrer algum erro durante o processo, entra no bloco catch.
+    const errorMessage = returnErrorMessage(error); // O erro é tratado e formatado pela função 'returnErrorMessage'.
+    res.json({
+      message: errorMessage, // Envia a mensagem de erro formatada na resposta.
     });
   }
 };

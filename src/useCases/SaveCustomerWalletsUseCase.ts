@@ -35,9 +35,9 @@ export default class SaveCustomerWalletsUseCase
     );
 
     if (!customers) {
-      throw new Error("Erro ao salvar clientes na base.");
+      throw new Error("Erro ao salvar cliente na base.");
     }
 
-    return { message: "Clientes salvos com sucesso." };
+    return { message: "Cliente salvo com sucesso." };
   }
 }
